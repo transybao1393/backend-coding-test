@@ -9,7 +9,14 @@
   "scripts": {
     "test": "eslint 'src/' & mocha tests",
     "start": "node index.js",
-    "coverage": "nyc npm run test"
+    "coverage": "nyc npm run test",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
   },
   "keywords": [
     "Xendit"
@@ -28,10 +35,5 @@
     "nyc": "^15.1.0",
     "supertest": "^4.0.2",
     "winston": "^3.3.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm test"
-    }
   }
 }
