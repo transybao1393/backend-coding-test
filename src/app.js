@@ -118,23 +118,19 @@ module.exports = (db) => {
      * Basic document
      * @name Pagination rides
      * URL: /rides/paginate
-     * Params: 
+     * Params:
      * @param pageNumber
      * @requires false
-     * 
      * @param pageSize
      * @requires false
-     * 
      * @summary 
      * This function basically enable the ability of paginate the rides list
      * Logic here
      * offset = pageNumber * pageSize
      * limit = pageSize
-     * 
      * @throws
      * if pageNumber || pageSize was not provided,
      * then the function will be considered to return all rides
-     * 
      * @author baots
      */
     app.get('/rides/paginate/:pageNumber?/:pageSize?', (req, res) => {
