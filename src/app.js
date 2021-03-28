@@ -123,7 +123,7 @@ module.exports = (db) => {
      * @requires false
      * @param pageSize
      * @requires false
-     * @summary 
+     * @summary
      * This function basically enable the ability of paginate the rides list
      * Logic here
      * offset = pageNumber * pageSize
