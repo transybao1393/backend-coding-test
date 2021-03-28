@@ -42,20 +42,21 @@ describe('API tests', () => {
         });
     });
 
-    describe('GET /rides', () => {
-        it('should return error', (done) => {
+    //- GET /rides test with pagination
+    describe('GET /rides/paginate', () => {
+        it('should return success with status 200', (done) => {
             request(app)
-            .get('/rides')
+            .get('/rides/paginate')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200, done);
         });
     });
 
-    describe('GET /rides', () => {
-        it('should return error', (done) => {
+    describe('GET /rides/paginate', () => {
+        it('should return success with all rides', (done) => {
             request(app)
-            .get('/rides')
+            .get('/rides/paginate')
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200, [
@@ -67,6 +68,94 @@ describe('API tests', () => {
                     "endLong": 0,
                     "riderName": "riderTest1",
                     "driverName": "driverTest1",
+                    "driverVehicle": "motorbike",
+                    "created": "28-03-21 09:00:09 PM"
+                },
+                {
+                    "rideID": 2,
+                    "startLat": 0,
+                    "startLong": 0,
+                    "endLat": 0,
+                    "endLong": 0,
+                    "riderName": "riderTest2",
+                    "driverName": "driverTest2",
+                    "driverVehicle": "motorbike",
+                    "created": "28-03-21 09:00:09 PM"
+                },
+                {
+                    "rideID": 3,
+                    "startLat": 0,
+                    "startLong": 0,
+                    "endLat": 0,
+                    "endLong": 0,
+                    "riderName": "riderTest3",
+                    "driverName": "driverTest3",
+                    "driverVehicle": "motorbike",
+                    "created": "28-03-21 09:00:09 PM"
+                },
+                {
+                    "rideID": 4,
+                    "startLat": 0,
+                    "startLong": 0,
+                    "endLat": 0,
+                    "endLong": 0,
+                    "riderName": "riderTest4",
+                    "driverName": "driverTest4",
+                    "driverVehicle": "motorbike",
+                    "created": "28-03-21 09:00:09 PM"
+                },
+                {
+                    "rideID": 5,
+                    "startLat": 0,
+                    "startLong": 0,
+                    "endLat": 0,
+                    "endLong": 0,
+                    "riderName": "riderTest5",
+                    "driverName": "driverTest5",
+                    "driverVehicle": "motorbike",
+                    "created": "28-03-21 09:00:09 PM"
+                },
+                {
+                    "rideID": 6,
+                    "startLat": 0,
+                    "startLong": 0,
+                    "endLat": 0,
+                    "endLong": 0,
+                    "riderName": "riderTest6",
+                    "driverName": "driverTest6",
+                    "driverVehicle": "motorbike",
+                    "created": "28-03-21 09:00:09 PM"
+                }
+            ], done);
+        });
+    });
+
+    describe('GET /rides/paginate/0/2', () => {
+        it('should return firs 2 records with page number is 0 and page size is 2', (done) => {
+            request(app)
+            .get('/rides/paginate/0/2')
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200, [
+                {
+                    "rideID": 1,
+                    "startLat": 0,
+                    "startLong": 0,
+                    "endLat": 0,
+                    "endLong": 0,
+                    "riderName": "riderTest1",
+                    "driverName": "driverTest1",
+                    "driverVehicle": "motorbike",
+                    "created": "28-03-21 09:00:09 PM"
+                },
+                {
+                    "rideID": 2,
+                    "startLat": 0,
+                    "startLong": 0,
+                    "endLat": 0,
+                    "endLong": 0,
+                    "riderName": "riderTest2",
+                    "driverName": "driverTest2",
                     "driverVehicle": "motorbike",
                     "created": "28-03-21 09:00:09 PM"
                 }
@@ -209,14 +298,14 @@ describe('API tests', () => {
     });
 
     describe('POST /rides', () => {
-        it('should created new record with rider 2', (done) => {
+        it('should created new record with rider 7', (done) => {
 
             request(app)
             .post('/rides')
             .send({
                 "driver_vehicle": "motorbike",
-                "rider_name": "riderTest1",
-                "driver_name": "driverTest1",
+                "rider_name": "riderTest7",
+                "driver_name": "driverTest7",
                 "start_lat": 0,
                 "end_lat": 0,
                 "start_long": 0,
@@ -226,13 +315,13 @@ describe('API tests', () => {
             .expect('Content-Type', /json/)
             .expect(200, [
                 {
-                    "rideID": 2,
+                    "rideID": 7,
                     "startLat": 0,
                     "startLong": 0,
                     "endLat": 0,
                     "endLong": 0,
-                    "riderName": "riderTest1",
-                    "driverName": "driverTest1",
+                    "riderName": "riderTest7",
+                    "driverName": "driverTest7",
                     "driverVehicle": "motorbike",
                     "created": new Date().toISOString().slice(0, 19).replace('T', ' ')
                 }
