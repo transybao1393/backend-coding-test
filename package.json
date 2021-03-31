@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "eslint 'src/' & mocha tests",
-    "start": "node index.js",
+    "start": "nodemon --exec babel-node index.js",
     "coverage": "nyc npm run test",
     "prepare": "husky install"
   },
@@ -24,14 +24,19 @@
   "author": "Bo",
   "license": "ISC",
   "dependencies": {
+    "asyncawait": "^3.0.0",
     "body-parser": "^1.19.0",
     "express": "^4.16.4",
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.13.13",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.13.12",
     "eslint": "^7.23.0",
     "husky": "^5.2.0",
     "mocha": "^8.3.2",
+    "nodemon": "^2.0.7",
     "nyc": "^15.1.0",
     "supertest": "^4.0.2",
     "winston": "^3.3.3"

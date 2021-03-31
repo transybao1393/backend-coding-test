@@ -14,8 +14,9 @@ const buildSchemas = require('./src/schemas');
 
 db.serialize(() => {
     buildSchemas(db);
-
-    const app = require('./src/app')(db);
+    
+    const app = require('./src/app2')(db);
+    require('./src/repository/RiderRepository').setDBInstance(db);
 
     app.listen(port, () => console.log(`App started and listening on port ${port}`));
 });
