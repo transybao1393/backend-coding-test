@@ -6,10 +6,12 @@ const request = require('supertest');
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database(':memory:');
 
-const app = require('../src/app')(db);
+// const app = require('../src/app')(db);
+
+const {app} = require('../src/app');
+require('../src/repository/RiderRepository').setDBInstance(db);
+
 const buildSchemas = require('../src/schemas');
-
-
 
 describe('API tests', () => {
     before((done) => {
@@ -125,8 +127,7 @@ describe('API tests', () => {
                     "driverName": "driverTest6",
                     "driverVehicle": "motorbike",
                     "created": "28-03-21 09:00:09 PM"
-                }
-            ], done);
+                }], done);
         });
     });
 
@@ -298,14 +299,15 @@ describe('API tests', () => {
     });
 
     describe('POST /rides', () => {
+        //- should it be change to create new rider?
         it('should created new record with rider 7', (done) => {
 
             request(app)
             .post('/rides')
             .send({
                 "driver_vehicle": "motorbike",
-                "rider_name": "riderTest7",
-                "driver_name": "driverTest7",
+                "rider_name": "riderTest11",
+                "driver_name": "driverTest11",
                 "start_lat": 0,
                 "end_lat": 0,
                 "start_long": 0,
@@ -315,13 +317,13 @@ describe('API tests', () => {
             .expect('Content-Type', /json/)
             .expect(200, [
                 {
-                    "rideID": 7,
+                    "rideID": 11,
                     "startLat": 0,
                     "startLong": 0,
                     "endLat": 0,
                     "endLong": 0,
-                    "riderName": "riderTest7",
-                    "driverName": "driverTest7",
+                    "riderName": "riderTest11",
+                    "driverName": "driverTest11",
                     "driverVehicle": "motorbike",
                     "created": new Date().toISOString().slice(0, 19).replace('T', ' ')
                 }
