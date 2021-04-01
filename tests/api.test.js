@@ -8,7 +8,7 @@ const db = new sqlite3.Database(':memory:');
 
 // const app = require('../src/app')(db);
 
-const app = require('../src/app2');
+const {app} = require('../src/app');
 require('../src/repository/RiderRepository').setDBInstance(db);
 
 const buildSchemas = require('../src/schemas');
