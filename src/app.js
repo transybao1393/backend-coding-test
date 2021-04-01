@@ -89,7 +89,7 @@ module.exports = (db) => {
                 message: 'Rider name must be a non empty string'
             });
         }
-
+        //- SQL Injection vulnerable, need some validation
         var values = [req.body.start_lat, req.body.start_long, req.body.end_lat, req.body.end_long, req.body.rider_name, req.body.driver_name, req.body.driver_vehicle];
         const result = db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {
             if (err) {
@@ -134,6 +134,7 @@ module.exports = (db) => {
      * @author baots
      */
     app.get('/rides/paginate/:pageNumber?/:pageSize?', (req, res) => {
+        //- SQL Injection vulnerable
         let query = `SELECT * FROM Rides`;
 
         if(req.params.pageNumber || req.params.pageSize) {
@@ -168,6 +169,7 @@ module.exports = (db) => {
     });
 
     app.get('/rides/:id', (req, res) => {
+        //- SQL Injection vulnerable
         db.all(`SELECT * FROM Rides WHERE rideID='${req.params.id}'`, function (err, rows) {
             if (err) {
                 return res.send({
