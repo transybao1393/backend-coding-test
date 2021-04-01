@@ -7,14 +7,22 @@ module.exports = {
     },
     rideById: function(id) {
         return new Promise((resolve, reject) => {
-            globalDBInstance.all(`SELECT * FROM Rides WHERE rideID='${id}'`, async function (err, rows) {
+            globalDBInstance.all(`SELECT * FROM Rides WHERE rideID=?`, id, async function (err, rows) {
                 if (err) {
+                    logger.log({
+                        error_code: 'SERVER_ERROR',
+                        message: 'Unknown error'
+                    });
                     reject({
                         error_code: 'SERVER_ERROR',
                         message: 'Unknown error'
                     });
                 }
                 if (rows.length === 0) {
+                    logger.log({
+                        error_code: 'RIDES_NOT_FOUND_ERROR',
+                        message: 'Could not find any rides'
+                    });
                     reject({
                         error_code: 'RIDES_NOT_FOUND_ERROR',
                         message: 'Could not find any rides'
@@ -27,22 +35,26 @@ module.exports = {
     ridePagination: function(pn = null, ps = null) {
         return new Promise((resolve, reject) => {
             let query = `SELECT * FROM Rides`;
-
+            let values = [];
             if(pn !== null || ps !== null) {
                 const pageNumber = Number(pn);
                 const pageSize = Number(ps);
 
                 let offset = pageNumber * pageSize;
                 let limit = pageSize;
-                query += ` LIMIT ${limit} OFFSET ${offset}`;
-
+                values = [limit, offset];
+                query += ` LIMIT ? OFFSET ?`;
                 console.log('====================================');
                 console.log('offset', offset);
                 console.log('limit', limit);
                 console.log('====================================');
             }
-            globalDBInstance.all(query, function (err, rows) {
+            globalDBInstance.all(query, values, function (err, rows) {
                 if (err) {
+                    logger.log({
+                        error_code: 'SERVER_ERROR',
+                        message: 'Unknown error'
+                    });
                     reject({
                         error_code: 'SERVER_ERROR',
                         message: 'Unknown error' + err
@@ -50,6 +62,10 @@ module.exports = {
                 }
 
                 if (rows.length === 0) {
+                    logger.log({
+                        error_code: 'RIDES_NOT_FOUND_ERROR',
+                        message: 'Could not find any rides' + rows
+                    });
                     reject({
                         error_code: 'RIDES_NOT_FOUND_ERROR',
                         message: 'Could not find any rides' + rows
@@ -149,6 +165,10 @@ module.exports = {
             var values = [start_lat, start_long, end_lat, end_long, rider_name, driver_name, driver_vehicle];
             globalDBInstance.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {
                 if (err) {
+                    logger.log({
+                        error_code: 'SERVER_ERROR',
+                        message: 'Unknown error'
+                    });
                     reject({
                         error_code: 'SERVER_ERROR',
                         message: 'Unknown error'
@@ -156,6 +176,10 @@ module.exports = {
                 }
                 globalDBInstance.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, function (err, rows) {
                     if (err) {
+                        logger.log({
+                            error_code: 'SERVER_ERROR',
+                            message: 'Unknown error'
+                        });
                         reject({
                             error_code: 'SERVER_ERROR',
                             message: 'Unknown error'
