@@ -1,0 +1,32 @@
+config:
+  target: 'http://localhost:8010'
+  phases:
+    - duration: 30
+      arrivalRate: 100
+      name: Warm up
+    # - duration: 30
+    #   arrivalRate: 10
+    #   name: RAM up
+    # - duration: 30
+    #   arrivalRate: 10
+    #   name: Sustained load
+scenarios:
+  - flow:
+    - get:
+        url: "/rides/1"
+    - get:
+        url: "/paginate/0/3"
+    - get:
+        url: "/paginate"
+    - get:
+        url: "/health"
+    - post:
+        url: "/rides"
+        json: 
+          driver_vehicle: "motorbike"
+          rider_name: "riderTest"
+          driver_name: "driverTest"
+          start_lat: 0
+          end_lat: 0
+          start_long: 180
+          end_long: 0
